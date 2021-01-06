@@ -4,6 +4,8 @@ import unidecode
 import os
 
 from kivy.app import App
+#from kivy.uix.gridlayout import GridLayout
+#from kivy.uix.widget import Widget
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 #from kivy.uix.actionbar import ActionBar
@@ -37,7 +39,6 @@ class MainWindow(Screen):
     
     def __init__(self, **kwargs):
         super(MainWindow, self).__init__(**kwargs)
-        print("static/{}.xlsx".format(self.hsklevel))
         self.df = pd.read_excel(r"static/{}.xlsx".format(self.hsklevel), engine="openpyxl")
         self.en = self.df['English']
         self.zh = self.df['Chinese']
