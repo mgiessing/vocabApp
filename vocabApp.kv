@@ -1,5 +1,6 @@
 BoxLayout:
-    manager: screen_manager
+    manager: sm # Was ist richtig...scheint beides zu funktionieren?
+    #id: sm
     orientation: 'vertical'
 
     ActionBar:
@@ -9,6 +10,7 @@ BoxLayout:
 
         ActionView:
             ActionPrevious:
+                on_release: root.manager.current = 'main'
             ActionButton:
                 text: 'Training'
                 on_release: root.manager.current = 'main'
@@ -20,24 +22,21 @@ BoxLayout:
                 on_release: app.open_settings()
     
     MyScreenManager:
-        id: screen_manager
+        id: sm
         MainWindow:
-        DashboardWindow:
         QuizWindow:
+        VocabularyList:
 
 <MainWindow>:
     name: 'main'
-    vocab: vocab
     userInput: userInput
 
     GridLayout:
         size: root.width, root.height
-        rows: 4
-
+        rows: 3
         Label:
             id: vocab
-            #text: ''#"Welcome to the Chinese Learning App!"
-        
+            text: root.vocab
         TextInput:
             id: userInput
             hint_text: 'Enter answer'
@@ -55,8 +54,8 @@ BoxLayout:
                 text: 'Start/Skip'
                 on_press: root.btn_next()
             Button:
-                text: 'Dashboard'
-                on_press: app.root.current = 'dashboard'
+                text: 'Vocabulary List'
+                on_press: root.manager.current = 'vocabularylist'
 
 <QuizWindow>:
     name: 'quiz'
@@ -64,7 +63,7 @@ BoxLayout:
 
     GridLayout:
         size: root.width, root.height
-        rows: 4
+        rows: 3
         Label:
             id: quizHead
             text: root.quizHead
@@ -73,7 +72,7 @@ BoxLayout:
             hint_text: 'Enter answer'
             width: 300
             multiline: False
-            on_text_validate: root.btn_submit()
+            on_text_validate: root.btn_next()
             font_name: 'static/NotoSansSC-Regular.otf'
 
         GridLayout:
@@ -88,6 +87,49 @@ BoxLayout:
                 text: 'Next'
                 on_press: root.btn_next()
 
+<Tabelle>:
+    orientation: 'horizontal'
+    spalte1_SP: 'spalte1'
+    spalte2_SP: 'spalte2'
+    spalte3_SP: 'spalte3'
+    Label:
+        id: SP1
+        text: root.spalte1_SP
+        font_name: 'static/NotoSansSC-Regular.otf'
+    Label:
+        id: SP2
+        text: root.spalte2_SP
+        font_name: 'static/NotoSansSC-Regular.otf'
+    Label:
+        id: SP3
+        text: root.spalte3_SP
+        font_name: 'static/NotoSansSC-Regular.otf'
+
+<VocabularyList>:
+    name: 'vocabularylist'
+    GridLayout:
+        size: root.width, root.height
+        rows: 2
+        GridLayout:
+            cols: 3
+            size_hint: 1, None
+            background_color: (0.53, 0.808, 0.98, 1)
+            Label:
+                text: 'English'
+            Label:
+                text: 'Pinyin'
+            Label:
+                text: 'Chinese'
+        RV:
+            viewclass: 'Tabelle'
+            font_name: 'static/NotoSansSC-Regular.otf'
+            RecycleBoxLayout:
+                orientation: 'vertical'
+                default_size: None, dp(32)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+
 <PopupWindow>:
     pLabel: pLabel
 
@@ -101,13 +143,3 @@ BoxLayout:
         size_hint: .8, .2
         pos_hint:{'x': .1, 'y': .1}
         on_release: root.close_pop()
-
-<DashboardWindow>:
-    name: 'dashboard'
-    GridLayout:
-        rows: 2
-        Label:
-            text: '<e.g. PieChart Results>'
-        Button:
-            text: 'Go back'
-            on_press: app.root.current = 'main'
