@@ -35,7 +35,7 @@ def get_vocab(hsklevel):
     return df, en, zh, pinyin
 
 def get_config():
-    if os.path.exists('vocabularyTrainer.ini'):
+    if os.path.exists('vocabularytrainer.ini'):
         config = ConfigParser()
         config.read('vocabularytrainer.ini')
         return config.get('example', 'optionsexample'), int(config.get('example', 'wordsexample'))
