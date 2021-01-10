@@ -1,7 +1,7 @@
 import random
 import pandas as pd
 import unidecode
-import os
+import os, re
 
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
@@ -35,9 +35,9 @@ def get_vocab(hsklevel):
     return df, en, zh, pinyin
 
 def get_config():
-    if os.path.exists('vocabularytrainer.ini'):
+    if os.path.exists('vocab.ini'):
         config = ConfigParser()
-        config.read('vocabularytrainer.ini')
+        config.read('vocab.ini')
         return config.get('example', 'optionsexample'), int(config.get('example', 'wordsexample'))
     else:
         return "HSK1", 10
